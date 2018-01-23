@@ -2,7 +2,7 @@
 
 ## Summary
 
-Mappings provide methods of data transformation.
+Mappings are a type of item that provide methods of data transformation.
 
 ## Syntax
 
