@@ -80,22 +80,13 @@ data:
 
 main:
     load $0, :hello;
-    load $1, :hello_len;
+    load $1, @:hello_len;
     load $2, $$$_STDOUT;
     !write;
     load $0, $2;
     !flush;
     load $0, 0;
     !exit;
-```
-
-```mim
-using STD::IO;
-define Program {
-    default mapping Main() {
-        IO::PrintLn("Hello, World!");
-    }
-}
 ```
 
 ## Labels
@@ -112,3 +103,14 @@ equivalent to the value `4`.
 
 Configurations generate zero bytes of the MimB executable body, instead, the are included in the
 header section of te MimB file. The are called with a prefix underscore `_foo`.
+
+All configurations have a default value, these are the following available configurations and their
+default values.
+
+|configuration|default|function|
+|-:|:-|:-|
+|`_stack`|`2000000`|The number of bytes of stack space to allocate.|
+|`_iomode`|`0`|Gives access to `$$$_STDIN`, `$$$_STDOUT`, and `$$$_STDERR` special handles.|
+|`_bangmethods`|`0`|Gives access to the special band-methods, which abstract system calls and interrupts.|
+
+## 
