@@ -1,6 +1,6 @@
 ; MimASM 0.2.0
 
-section typedef:
+section typedef;
     utf32:
         bytes 4;
     String:
@@ -58,13 +58,13 @@ section typedef:
             body :MM_Example;
         end_frame;
 
-section data:
+section data;
     MM_Example_L2_String:
         data_utf32 "Lucy";
     MM_Example_L2_String_Len:
         data 16;
 
-section main:
+section main;
     MM_Example:
         begin_frame_body :TM_Example;
             local_bytes_init 1 0d1997;
