@@ -1,0 +1,80 @@
+; MimASM 0.2.0
+
+section typedef:
+    utf32:
+        bytes 4;
+    String:
+        buffer :utf32;
+    Pet_CC_Dog:
+    Pet_CC_Cat:
+    Pet_CC_Unknown:
+        begin_product;
+            compose 0 :String;
+        end_product;
+    Option_TT_Pet_ZZ_Some:
+    Pet:
+        begin_sum;
+            variant 0 :Pet_CC_Dog;
+            variant 1 :Pet_CC_Cat;
+            variant 2 :Pet_CC_Unknown;
+        end_sum;
+    Gender_CC_Male:
+    Gender_CC_Female:
+    Gender_CC_Other:
+    Option_TT_Pet_ZZ_None:
+    Unit:
+        bytes 1;
+    Gender:
+        begin_sum;
+            variant 0 :Gender_CC_Male;
+            variant 1 :Gender_CC_Female;
+            variant 2 :Gender_CC_Other;
+        end_sum;
+    Option_TT_Pet:
+        begin_sum;
+            variant 0 :Option_TT_Pet_CC_Some;
+            variant 1 :Option_TT_Pet_CC_None;
+        end_sum;
+    uint64:
+        bytes 8;
+    Human:
+        begin_product;
+            compose 0 :uint64;
+            compose 1 :String;
+            compose 2 :Option_TT_Pet;
+            compose 3 :Gender;
+        begin_product;
+    TM_Example:
+        begin_frame;
+            nodomain;
+            local 0 :Human;
+            local 1 :uint64;
+            local 2 :String;
+            local 3 :Option_TT_Pet;
+            local 4 :Option_TT_Pet_CC_None;
+            local 5 :Gender;
+            local 6 :Gender_CC_Female;
+            range :Unit;
+            body :MM_Example;
+        end_frame;
+
+section data:
+    MM_Example_L2_String:
+        data_utf32 "Lucy";
+    MM_Example_L2_String_Len:
+        data 16;
+
+section main:
+    MM_Example:
+        begin_frame_body :TM_Example;
+            local_bytes_init 1 0d1997;
+            local_buffer_init 2 :MM_Example_L2_String :MM_Example_L2_String_Len;
+            local_bytes_init 4 0x0;
+            local_sum_set 3 1 4;
+            local_bytes_init 6 0x0;
+            local_sum_set 5 1 6;
+            local_product_set 0 0 1;
+            local_product_set 0 1 2;
+            local_product_set 0 2 3;
+            local_product_set 0 3 5;
+        end_frame_body;

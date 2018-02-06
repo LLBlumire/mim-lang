@@ -1,0 +1,33 @@
+// Mim 0.1.0
+
+product Human {
+    date_of_birth: u64,
+    name: String,
+    pet: Option<Pet>,
+    gender: Gender
+}
+sum Pet {
+    product Dog {
+        breed: String
+    }
+    product Cat {
+        color: String
+    }
+    product Unknown {
+        type: String
+    }
+}
+sum Gender {
+    product Male { },
+    product Female { },
+    product Other { }
+}
+
+mapping Example() {
+    let x = Human {
+        date_of_birth: 1997,
+        name: "Lucy",
+        pet: None,
+        gender: Gender::Female
+    };
+}
