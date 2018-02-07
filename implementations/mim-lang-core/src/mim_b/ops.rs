@@ -1,24 +1,49 @@
+//! Contains the `Ops` enum.
+
+/// Operations available to compute
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Ops {
+    /// No operation performed
     NoOp = 0,
-    Section = 1,
+    /// Change `SectionMode`
+    Section,
+    /// Define a type that is a sequence of bytes
     Bytes,
+    /// Define a type that is a buffer of another type
     Buffer,
+    /// Define a frame type (mapping)
     BeginFrame,
+    /// The frame has no domain parameters.
     NoDomain,
+    /// Define a domain parameter of a frame (mapping).
+    Domain,
+    /// Define a locally acquired variable. Kept behind a strong pointer.
     Local,
+    /// Define the return range of a frame.
     Range,
+    /// Define the declared programmatical body of the frame.
     Body,
+    /// End a frame (mapping).
     EndFrame,
+    /// Place raw utf32 string data into memory.
     DataUtf32,
+    /// Place a raw 64 bit value into memory.
     Data,
+    /// Begin defining the body of a frame.
     BeginFrameBody,
+    /// Initialise a local buffer.
     LocalBufferInit,
+    /// Output a local utf32 sequence.
     StdoutUtf32,
+    /// End the body of a frame.
     EndFrameBody,
-    Unknown
+    /// An unknown instruction.
+    Unknown,
 }
+
+#[allow(match_same_arms)]
 impl Ops {
+    /// Returns the number of parameters an instruction expects.
     pub fn valency(&self) -> u64 {
         match *self {
             Ops::NoOp => 0,
@@ -27,6 +52,7 @@ impl Ops {
             Ops::Buffer => 1,
             Ops::BeginFrame => 0,
             Ops::NoDomain => 0,
+            Ops::Domain => 1,
             Ops::Local => 2,
             Ops::Range => 1,
             Ops::Body => 1,
@@ -61,7 +87,7 @@ impl<'a> From<&'a str> for Ops {
             "local_buffer_init" => Ops::LocalBufferInit,
             "stdout_utf32" => Ops::StdoutUtf32,
             "end_frame_body" => Ops::EndFrameBody,
-            _ => Ops::Unknown
+            _ => Ops::Unknown,
         }
     }
 }

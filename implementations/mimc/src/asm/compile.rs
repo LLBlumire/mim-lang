@@ -56,7 +56,7 @@ pub fn compile(input: &str) -> Vec<u8> {
                         state.section = sm;
                         state.operator_valency = Some(state.operator_valency.unwrap() - 1);
                         state.output_buffer.extend_from_slice(&slice_to_code(&instruction::section(sm)));
-                    }
+                    },
                     _ => {
                     }
                 }

@@ -1,3 +1,5 @@
+//! Provides resources specific to bytecode compilation. 
+
 mod section_mode;
 mod ops;
 
