@@ -1,0 +1,6 @@
+using STD::IO;
+define Program {
+	default mapping Main() {
+		IO::PrintStr("Hello, World!");
+	}
+}
