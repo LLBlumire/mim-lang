@@ -23,8 +23,10 @@ pub fn compile(source: &str) -> Vec<u8> {
         }
         if mode != starting_mode {
             let added = buf.len() as i64;
-            for _ in 0..(8 + ((-added) % 8)) {
-                buf.push(0);
+            if added % 8 != 0 {
+                for _ in 0..(8 + ((-added) % 8)) {
+                    buf.push(0);
+                }
             }
             context = 0;
             if mode == 1 {
