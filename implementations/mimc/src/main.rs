@@ -15,20 +15,24 @@ fn main() {
     let matches = App::new("Mim Compiler")
         .version(crate_version!())
         .author(crate_authors!())
-        .arg(Arg::with_name("assembler")
-            .short("a")
-            .long("assembler")
-            .value_name("FILE")
-            .help("A MimASM file to compile.")
-            .multiple(true)
-            .takes_value(true))
-        .arg(Arg::with_name("output")
-            .short("o")
-            .long("output")
-            .value_name("FILE")
-            .help("The file to output too.")
-            .takes_value(true)
-            .required(true))
+        .arg(
+            Arg::with_name("assembler")
+                .short("a")
+                .long("assembler")
+                .value_name("FILE")
+                .help("A MimASM file to compile.")
+                .multiple(true)
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("output")
+                .short("o")
+                .long("output")
+                .value_name("FILE")
+                .help("The file to output too.")
+                .takes_value(true)
+                .required(true),
+        )
         .get_matches();
 
     let output_file = matches.value_of("output").unwrap();
@@ -51,7 +55,6 @@ fn main() {
         println!("Building Input Assembler: `{}`", asm_file);
         output.append(&mut asm::compile(&file_content));
     }
-    
 
     if let Ok(mut file_handle) = File::create(output_file) {
         if let Ok(_) = file_handle.write_all(&output) {
@@ -62,5 +65,4 @@ fn main() {
     } else {
         println!("Failed to Create: `{}`", output_file);
     }
-
 }

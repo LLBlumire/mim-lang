@@ -1,27 +1,35 @@
-section typedef;
+section TYPEDEF;
     T_Unit:
         bytes 1;
     T_UTF32:
         bytes 4;
+    T_UTF64:
+        bytes 8;
     T_String:
         buffer :T_UTF32;
     T_Program_CC_MM_Main:
         begin_frame;
-            no_domain;
+            local 0 :T_UTF64;
+            local 2 :T_UTF64;
             local 1 :T_String;
-            range :T_Unit;
-            body :MM_Example;
+            return :T_Unit;
         end_frame;
 
-section data;
+section DATA;
     D_Program_CC_MM_Main_L1_T_String:
-        data_utf32 "Hello, World!\n";
+        string `Hello, World!';
+    D_Program_CC_MM_Main_L1_T_String_NL:
+        number 10 size8 10;
     D_Program_CC_MM_Main_L1_T_String_Len:
-        data 0d13;
+        number 10 size64 13;
+    CODE_OK:
+        number 10 size64 0;
 
-section main;
+section MAIN;
     Program_CC_MM_Main:
-        begin_frame_body :T_Program_CC_MM_Main;
-            local_buffer_init 1 :D_Program_CC_MM_Main_L1_T_String :D_Program_CC_MM_Main_L1_T_String_Len;
-            stdout_utf32 1 :D_Program_CC_MM_Main_L1_T_String_Len;
-        end_frame_body;
+        begin_frame_body :T_Program_CC_MM_Main 0;
+            init_bytes_data 0 :CODE_OK;
+            init_bytes_data 1 :D_Program_CC_MM_Main_L1_T_String_Len;
+            init_buffer_data 2 :D_Program_CC_MM_Main_L1_T_String 2;
+            stdout_string 2 :D_Program_CC_MM_Main_L1_T_String_Len;
+        end_frame_body 0;
