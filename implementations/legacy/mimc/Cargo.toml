@@ -1,9 +1,0 @@
-[package]
-name = "mimc"
-version = "0.1.0"
-authors = ["Lucille Blumire <llblumire@gmail.com>"]
-
-[dependencies]
-clap = "2.29.*"
-mim-lang-core = { path = "../mim-lang-core", version = "0.1.0" }
-byteorder = "1.2.1"

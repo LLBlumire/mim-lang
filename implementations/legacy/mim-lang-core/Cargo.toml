@@ -1,7 +1,0 @@
-[package]
-name = "mim-lang-core"
-version = "0.1.0"
-authors = ["Lucille Blumire <llblumire@gmail.com>"]
-
-[dependencies]
-byteorder = "1.2.*"
