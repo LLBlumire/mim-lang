@@ -21,10 +21,11 @@ pub fn data(
             _ => println!("Unknown mode entry for term: `{:?}`", term),
         };
         *context += (buf.len() - offset_len) as i32;
+        let context_write = ((*context) + ((-*context % 8))) as usize;
         let context = *context as usize;
         let buflen = buf.len();
         let mut cursor = Cursor::new(&mut buf[buflen-context-8..buflen-context]);
-        cursor.write_u64::<BE>(context as u64).unwrap();
+        cursor.write_u64::<BE>(context_write as u64).unwrap();
     });
 
     // Call inside context rule to properly process all nametabling
