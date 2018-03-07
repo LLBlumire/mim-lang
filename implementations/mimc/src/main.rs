@@ -1,3 +1,6 @@
+//! The Mim Compiler
+//! Facilitates the compilation of MimASM.
+
 #[macro_use]
 extern crate clap;
 

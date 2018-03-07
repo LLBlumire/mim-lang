@@ -1,5 +1,7 @@
+//! Contains the typedef section processing functions
 use std::collections::HashMap;
 
+/// Process the typedef section
 pub fn typedef(
     buf: &mut Vec<u8>,
     term: &str,
@@ -20,6 +22,7 @@ pub fn typedef(
     }
 }
 
+/// Processes no context instructions
 fn no_context(
     buf: &mut Vec<u8>,
     term: &str,
@@ -27,6 +30,7 @@ fn no_context(
     context: &mut i32,
     nametable: &mut HashMap<String, u64>,
 ) {
+    // Process section changes
     context_rule!(term, buf, nametable, "section", 0, |term: &str, _| {
         match term.split_whitespace().last() {
             Some("TYPEDEF") => *mode = 0,
@@ -35,6 +39,7 @@ fn no_context(
             _ => println!("Unknown mode entry for term: `{:?}`", term),
         };
     });
+    // Process type registration
     context_rule!(term, buf, nametable, "bytes", 1);
     context_rule!(term, buf, nametable, "buffer", 2);
     context_rule!(term, buf, nametable, "begin_frame", 0xFFFC, |_, _| {
@@ -48,7 +53,7 @@ fn no_context(
     });
 }
 
-
+/// Process frame context instructions
 fn frame(
     buf: &mut Vec<u8>,
     term: &str,
@@ -56,13 +61,17 @@ fn frame(
     context: &mut i32,
     nametable: &mut HashMap<String, u64>,
 ) {
+    /// Process the ending of a frame
     context_rule!(term, buf, nametable, "end_frame", 0, |_, _| {
         *context = 0;
     });
+    /// Process the return type of a frame
     context_rule!(term, buf, nametable, "return", 1);
+    /// Process the local types of a frame
     context_rule!(term, buf, nametable, "local", 2);
 }
 
+/// Process the sum context instructions
 fn sum(
     buf: &mut Vec<u8>,
     term: &str,
@@ -70,12 +79,15 @@ fn sum(
     context: &mut i32,
     nametable: &mut HashMap<String, u64>,
 ) {
+    /// Process the ending of the sum context
     context_rule!(term, buf, nametable, "end_sum", 0, |_, _| {
         *context = 0;
     });
+    /// Process the variants of a sum
     context_rule!(term, buf, nametable, "variant", 1);
 }
 
+/// Process the product context instructions
 fn product(
     buf: &mut Vec<u8>,
     term: &str,
@@ -83,8 +95,10 @@ fn product(
     context: &mut i32,
     nametable: &mut HashMap<String, u64>,
 ) {
+    /// Process the ending of the product context
     context_rule!(term, buf, nametable, "end_product", 0, |_, _| {
         *context = 0;
     });
+    /// Process the composition of a product
     context_rule!(term, buf, nametable, "compose", 1);
 }

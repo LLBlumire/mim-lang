@@ -1,3 +1,5 @@
+//! Module containing methods for compiling MimASM
+
 mod compile;
 pub mod context;
 
